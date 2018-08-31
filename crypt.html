@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fadhel Murphy</title>
+</head>
+<style>
+    body {
+        font-size: 12px;
+        background: black;
+        color: grey;
+        text-shadow: 0 0 3px rgba(0, 100, 0, 1);
+        font-family: monospace;
+    }
+
+    input {
+        background: transparent;
+        border: 1px dashed gray;
+        color: #0c0;
+        width: 400px
+    }
+
+    a {
+        color: #0c0;
+        text-shadow: 0 0 3px rgba(0, 100, 0, 1);
+    }
+</style>
+
+<body>
+    <h1>Enc0de/Dec0de</h1>
+    <form method="post" class="form-user">
+        <table>
+            <tr>
+                <th>Text</th>
+                <td><input class="text" type="text"></td>
+            </tr>
+            <tr>
+                <th>Chiper</th>
+                <td><input class="cipher" type="text"></td>
+            </tr>
+            <tr>
+                <td><h2><a class="encode" href="#">< Enc0de ></a></h2></td>
+                <th><h2><a class="decode" href="#">< Dec0de ></a></h2></th>
+            </tr>
+            <th><b>The result is</b></th>
+            <tr>
+                <th><h2><b>Encode:</b></h2></th>
+                <td>
+                    <div id="encres"></div>
+                </td>
+            </tr>
+            <tr>
+                <th><h2><b>Decode:</b></h2></th>
+                <td>
+                    <div id="decres"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script type="text/javascript">
+    document.getElementsByTagName('form')[0].style.cssText = "margin: 0 auto;width: 38%;";
+        function dec() {
+            var cipher = document.getElementsByClassName("cipher")[0].value;
+            if (cipher !== '') {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("decres").innerHTML = '<h2><a>' + this.responseText + '</a></h2>';
+                        document.getElementsByClassName("text")[0].value = this.responseText;
+                    }
+                };
+                xhttp.open("POST", "class_crypt.php", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("cipher=" + cipher);
+            }
+        }
+        function enc() {
+            var text = document.getElementsByClassName("text")[0].value;
+            console.log(text);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("encres").innerHTML = '<h2><a>' + this.responseText + '</a></h2>';
+                    document.getElementsByClassName("cipher")[0].value = this.responseText;
+                }
+            };
+            xhttp.open("POST", "class_crypt.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("text=" + text);
+        }
+        document.getElementsByClassName('encode')[0].onclick = enc;
+        document.getElementsByClassName('decode')[0].onclick = dec;
+    </script>
+
+</body>
+
+</html>
